@@ -214,12 +214,13 @@ music->play();
 
 while(music->playing())
 {
-	if(Key_ESC_pressed())
-	music->stop();
+	if(Key_ESC_pressed()) music->stop();
+	emyl::stream::updateAll();
 }
 
 delete music;
 ```
+**Remember**, you **MUST** call emyl::stream::updateAll() regularly for queueing buffers and streaming the ogg file.
 
 In the same way as sounds does, when stream is freed, it also will free source from manager, OpenAL used buffers for perform the streaming and the ogg structs. Remember, in OpenAL any STEREO sound will not be affected by distance atenuation or doppler effect, and this affect stream too.
 
