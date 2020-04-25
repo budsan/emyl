@@ -27,6 +27,7 @@ SOFTWARE.
 #include <string>
 #include <thread>
 #include <mutex>
+#include <cassert>
 
 #if defined(_WINDOWS)
 
@@ -114,10 +115,10 @@ namespace internal
 	#ifdef EMYL_ERRORS_AS_WARNINGS
 	#define EMYL_ERROR EMYL_WARN
 	#else
-	#define EMYL_ERROR(...) do \
+	#define EMYL_ERROR(fmt, ...) do \
 		{ \
 		EMYL_LOG("%s -- ", __current__func__); \
-		EMYL_LOG(__VA_ARGS__); \
+		EMYL_LOG(fmt, __VA_ARGS__); \
 		EMYL_LOG("\n"); \
 		assert(0); \
 		std::exit(-1); \
@@ -126,10 +127,10 @@ namespace internal
 
 //---------------------------------------------------------------------------//
 
-	#define EMYL_WARN(...) do \
+	#define EMYL_WARN(fmt, ...) do \
 		{ \
 		EMYL_LOG("%s -- ", __current__func__); \
-		EMYL_LOG(__VA_ARGS__); \
+		EMYL_LOG(fmt, __VA_ARGS__); \
 		EMYL_LOG("\n"); \
 		} while (0)
 

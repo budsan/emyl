@@ -510,7 +510,7 @@ SoundFileReader* SoundFileFactory::createReaderFromFilename(const std::string& f
 	// Wrap the input file into a file stream
 	FileInputStream stream;
 	if (!stream.open(filename)) {
-		EMYL_WARN("Failed to open sound file \"" << filename << "\" (couldn't open stream)\n");
+		EMYL_WARN("Failed to open sound file \"%s\" (couldn't open stream)\n", filename.c_str());
 		return NULL;
 	}
 
@@ -523,7 +523,7 @@ SoundFileReader* SoundFileFactory::createReaderFromFilename(const std::string& f
 	}
 
 	// No suitable reader found
-	EMYL_WARN("Failed to open sound file \"" << filename << "\" (format not supported)\n");
+	EMYL_WARN("Failed to open sound file \"%s\" (format not supported)\n", filename.c_str());
 	return NULL;
 }
 
@@ -1100,7 +1100,7 @@ bool FileInputStream::open(const std::string& filename)
 	if (m_file)
 		std::fclose(m_file);
 
-	m_file = std::fopen(filename.c_str(), "rb");
+	m_file = fopen(filename.c_str(), "rb");
 
 	return m_file != NULL;
 }
@@ -1524,8 +1524,7 @@ bool Buffer::loadFromSamples(const std::int16_t* samples, std::uint64_t sampleCo
 	}
 	else
 	{
-		EMYL_WARN("Failed to load sound buffer from samples ("
-			"array: %p, count: %d, channels: %d, samplerate: %d)\n"
+		EMYL_WARN("Failed to load sound buffer from samples (array: %p, count: %llu, channels: %d, samplerate: %d)\n"
 			, samples, sampleCount, channelCount, sampleRate);
 
 		return false;
